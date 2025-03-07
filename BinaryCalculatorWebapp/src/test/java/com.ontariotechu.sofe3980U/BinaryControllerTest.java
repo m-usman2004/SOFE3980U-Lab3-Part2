@@ -57,4 +57,29 @@ public class BinaryControllerTest {
 			.andExpect(model().attribute("operand1", "111"));
     }
 
+    //This test case will check to see if two big numbers can be anded together
+    @Test
+    public void bigNumberAnd() throws Exception {
+        this.mvc.perform(post("/").param("operand1","11001101010011").param("operator","&").param("operand2","10110111110010"))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("result"))
+                .andExpect(model().attribute("result", "10000101010010"));
+    }
+
+    //This test case checks if the multiply function works with single digits
+    @Test
+    public void singleDigitMultiply() throws Exception {
+        this.mvc.perform(post("/").param("operand1","1").param("operator","*").param("operand2","1"))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("result"))
+                .andExpect(model().attribute("result", "1"));
+    }
+    //This test will check to see if the OR function works with different length numbers
+    @Test
+    public void orDifferentLengths() throws Exception {
+        this.mvc.perform(post("/").param("operand1","101").param("operator","|").param("operand2","11010"))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("result"))
+                .andExpect(model().attribute("result", "11111"));
+    }
 }

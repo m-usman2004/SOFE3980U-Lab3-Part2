@@ -48,4 +48,23 @@ public class BinaryAPIControllerTest {
 			.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(10001))
 			.andExpect(MockMvcResultMatchers.jsonPath("$.operator").value("add"));
     }
+
+    public void multiplyInvalidNumber() throws Exception {
+        this.mvc.perform(get("/multiply").param("operand1","021").param("operand2","10"))//.andDo(print())
+                .andExpect(status().isBadRequest());
+
+    }
+    @Test
+    public void orBigNumbers() throws Exception {
+        this.mvc.perform(get("/or").param("operand1","10101010101").param("operand2","10111011111"))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("10111011111"));
+    }
+
+    public void addSingleDigitNumbers() throws Exception {
+        this.mvc.perform(get("/add").param("operand1","1").param("operand2","1"))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("10"));
+    }
+
 }
